@@ -3,41 +3,71 @@ package controllers;
 import static play.data.Form.form;
 
 import java.util.List;
-
 import play.data.Form;
+import views.html.bookCreate;
+import views.html.bookEdit;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 public class Book extends Controller{
-  
-  public static Result index() {
-    List<models.Book> books = models.Book.find().findList();
-    return ok(books.isEmpty() ? "No books" : books.toString());
+  /**
+   * Displays a form with default values for creating a new book.
+   * @return A book form with default values. 
+   */
+  public static Result create() {
+    models.Book defaults = new models.Book("Book1", "My Book", "1", "1234567890123", "$60");
+    Form<models.Book> bookForm = form(models.Book.class).fill(defaults);
+    return ok(bookCreate.render(bookForm));
   }
   
-  public static Result details(String bookId) {
-    models.Book book = models.Book.find().where().eq("bookId", bookId).findUnique();
-    return (book == null) ? notFound("No books") : ok(book.toString());
-  }
-
-  public static Result newBook() {
-    // Create a new Book form and bind the request variables to it..
+  /**
+   * Stores a newly created book defined by user.
+   * @return The home page. 
+   */
+  public static Result save() {
     Form<models.Book> bookForm = form(models.Book.class).bindFromRequest();
-    //validate
     if (bookForm.hasErrors()) {
-      return badRequest("Book error:" + bookForm.errors().toString());
+      return badRequest(bookCreate.render(bookForm));
     }
-    //passed validation, now can create book entity 
     models.Book book = bookForm.get();
     book.save();
-    return ok(book.toString());
+    return redirect(routes.Application.admin());
   }
   
-  public static Result delete(String bookId) {
-    models.Book book = models.Book.find().where().eq("bookId", bookId).findUnique();
-    if (book != null) {
-      book.delete();
-    }
-    return ok();
+  /**
+   * Displays a book's data for updating.
+   * @param primaryKey The PK used to retrieve the book. 
+   * @return An filled book form.
+   */
+  public static Result edit(Long primaryKey) {
+    models.Book book = models.Book.find().byId(primaryKey);
+    Form<models.Book> bookForm = form(models.Book.class).fill(book);
+    return ok(bookEdit.render(primaryKey, bookForm));
   }
+  
+ 
+  /**
+   * Saves an updated version of the book data provided by user. 
+   * @param primaryKey The PK to the book.
+   * @return The home page. 
+   */
+  public static Result update(Long primaryKey) {
+    Form<models.Book> bookForm = form(models.Book.class).bindFromRequest();
+    if (bookForm.hasErrors()) {
+      return badRequest(bookEdit.render(primaryKey, bookForm));
+    }
+    bookForm.get().update(primaryKey);
+    return redirect(routes.Application.admin());
+  }
+  
+  /**
+   * Deletes the book. 
+   * @param primaryKey The PK to the book to be deleted.
+   * @return The home page. 
+   */
+  public static Result delete(Long primaryKey) {
+    models.Book.find().byId(primaryKey).delete();
+    return redirect(routes.Application.index());
+  }
+  
 }

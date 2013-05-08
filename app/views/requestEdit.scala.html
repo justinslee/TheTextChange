@@ -1,0 +1,28 @@
+@(primaryKey: Long, requestForm: Form[models.Request])
+
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@main("Update Request") {
+
+<div class="container">
+  <div class="well">
+    <h3>Update Request</h3>
+    @form(routes.Request.update(primaryKey), 'class -> "form-horizontal") {
+      @inputText(requestForm("requestId"), '_label -> "ID")
+      @inputText(requestForm("condition"), '_label -> "Name", 'placeholder -> "New")
+      @inputText(requestForm("price"), '_label -> "Price", 'placeholder -> "$30")
+      @select(requestForm("studentEmail"), options = options(models.Student.getEmails()), '_default -> "Choose a Email", '_label -> "Student Email")
+      @select(requestForm("bookName"), options = options(models.Book.getNames()), '_default -> "Choose a Name", '_label -> "Book Name")
+      
+      <div class="control-group">
+        <div class="controls">    
+          <input id="update" type="submit" value="Update" class="btn btn-primary"> 
+          <a id="delete" href="@routes.Request.delete(primaryKey)" class="btn btn-danger">Delete</a>  
+          <a id="cancel" href="@routes.Application.index()" class="btn">Cancel</a> 
+        </div>
+      </div>
+    }
+  </div>
+</div>  
+}

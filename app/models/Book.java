@@ -22,12 +22,13 @@ public class Book extends Model {
   private String bookId;
   @Required
   private String name;
+  @Required
   private String edition;
   private String isbn;
   private String priceNew;  
-  @OneToMany(mappedBy="book", cascade=CascadeType.ALL)
+  @OneToMany(mappedBy="book", cascade=CascadeType.PERSIST)
   private List<Offer> offers = new ArrayList<>();
-  @OneToMany(mappedBy="book", cascade=CascadeType.ALL)
+  @OneToMany(mappedBy="book", cascade=CascadeType.PERSIST)
   private List<Request> requests = new ArrayList<>();
 
   public Book(String bookId, String name, String edition, String isbn, String priceNew) {
@@ -102,5 +103,19 @@ public class Book extends Model {
     this.requests = requests;
   }
   
+  public Long getPrimaryKey() {
+    return primaryKey;
+  }
+
+  public void setPrimaryKey(Long primaryKey) {
+    this.primaryKey = primaryKey;
+  }
   
+  public static List<String> getNames() {
+    List<String> bookNames = new ArrayList<>();
+    for (Book book : find().all()) {
+      bookNames.add(book.getName());
+    }
+    return bookNames;
+  }
 }

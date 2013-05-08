@@ -1,0 +1,26 @@
+@(bookForm: Form[models.Book])
+
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@main("Create Book") {
+
+<div class="container">
+  <div class="well">
+    <h3>Create Book</h3>
+    @form(routes.Book.save(), 'class -> "form-horizontal") {
+      @inputText(bookForm("bookId"), '_label -> "ID", 'placeholder -> "Book-01")
+      @inputText(bookForm("name"), '_label -> "Name", 'placeholder -> "My Book")
+      @inputText(bookForm("edition"), '_label -> "Edition", 'placeholder -> "1")
+      @inputText(bookForm("isbn"), '_label -> "ISBN", 'placeholder -> "1234567890123")
+      @inputText(bookForm("priceNew"), '_label -> "New Price", 'placeholder -> "$60")      
+      <div class="control-group">
+        <div class="controls">    
+          <input id="create" type="submit" value="Create" class="btn btn-primary"> 
+          <a href="@routes.Application.admin()" class="btn">Cancel</a> 
+        </div>
+      </div>
+    }
+  </div>
+</div>  
+}

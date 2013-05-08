@@ -36,8 +36,8 @@ public class ModelTest {
     //Create 1 of each Model
     Book book = new Book("Book-01", "book", "edition", "1234567890123", "200");
     Student student = new Student("Student-01", "student", "email");
-    Offer offer = new Offer("Offer-01", "new", "100");
-    Request request = new Request("Request-01", "old", "50");
+    Offer offer = new Offer("Offer-01", "new", "100", "book", "edition");
+    Request request = new Request("Request-01", "old", "50", "book", "edition");
     
     //Associate Models
     book.getRequests().add(request);
@@ -101,17 +101,8 @@ public class ModelTest {
 
  
     // Show that offer does not exist in database
-    assertTrue("Book has an offer", Book.find().findList().get(0).getOffers().isEmpty());
     assertTrue("Student has an offer", Student.find().findList().get(0).getOffers().isEmpty());
     assertTrue("No more offers in database", Offer.find().findList().isEmpty());
-
-    // Delete book show database persistence
-    book.delete();
-    
-    assertTrue("No more requests in database", Request.find().findList().isEmpty());    
-    assertTrue("No more books in database", Book.find().findList().isEmpty());    
-    assertTrue("Students in database", !Student.find().findList().isEmpty());    
-
   
     }
   

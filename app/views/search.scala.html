@@ -1,0 +1,27 @@
+@(offers: List[models.Offer])
+
+@main("Results") {
+ <div class="container">
+  <div class="row main-features">
+    <div class="span12">
+      <div class="well">
+        <h3>Offers </h3>
+        <div class="table">
+          <table class="table">
+            <tbody>
+              @if(offers != null) {
+              
+                @for(offer <- offers) {
+                  <tr><td>@offer.getBookName (@offer.getCondition, @offer.getPrice, @if(offer.getStudent != null) {@offer.getStudent.getName}, @if(offer.getBook != null) {@offer.getBook.getName)}</td></tr>
+                }
+              } else {
+                <tr><td>No offer found</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div> 
+    </div>    
+  </div>
+</div>
+}

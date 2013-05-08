@@ -11,7 +11,7 @@ import play.db.ebean.Model;
 
 @Entity
 public class Request extends Model {
-  private static final long serialVersionUID = -156164648973164897L;
+  private static final long serialVersionUID = -244164648973164897L;
   @Id
   private Long primaryKey;
   @Column(unique=true)
@@ -37,25 +37,36 @@ public class Request extends Model {
     this.condition = condition;
     this.price = price;
   }
- 
+  
+  public Request(String requestId, String condition, String price, String bookName, String bookEdition) {
+    this.requestId = requestId;
+    this.condition = condition;
+    this.price = price;
+    this.bookName = bookName;
+    this.bookEdition = bookEdition;
+  } 
+  
   public static Finder<Long, Request> find() {
     return new Finder<Long, Request>(Long.class, Request.class);
   }
   
   public String validate() {
     Student studentTemp = Student.find().where().eq("email", getStudentEmail()).findUnique();
-    Book bookTemp = Book.find().where().eq("name", getBookName()).eq("edition",getBookEdition()).findUnique();
+    Book bookTemp = Book.find().where().eq("name", getBookName()).findUnique();
     if (studentTemp == null) {
       return "Invalid. Student must exist.";
     }
     else if (bookTemp == null){ 
-      Book bookNew = new Book("Book-"+getPrimaryKey().toString(),getBookName(),getBookEdition(), null, null);
-      setBook(bookNew);
-      book.save();
+      //models.Book bookNew = new Book("Book-"+getPrimaryKey().toString(),getBookName(),getBookEdition(), "NOTHING", "NOTHING");
+      //models.Book bookNew = new Book("Book-01",getBookName(),getBookEdition(), "NOTHING", "NOTHING");
+      return "Invalid. Book must exist.";
+      //setBook(bookNew);
+      //bookNew.save();
     } else {
-      setBook(bookTemp);
+      //setBook(bookTemp);
     }
     setStudent(studentTemp);
+    setBook(bookTemp);
     save();
     return null;
   }
@@ -64,6 +75,14 @@ public class Request extends Model {
     return String.format("[Request %s %s %s]", requestId, condition, price);
   }
 
+  public Long getPrimaryKey() {
+    return primaryKey;
+  }
+
+  public void setPrimaryKey(Long primaryKey) {
+    this.primaryKey = primaryKey;
+  }
+  
   public String getRequestId() {
     return requestId;
   }
@@ -128,12 +147,4 @@ public class Request extends Model {
     this.bookEdition = bookEdition;
   }
 
-  public Long getPrimaryKey() {
-    return primaryKey;
-  }
-
-  public void setPrimaryKey(Long primaryKey) {
-    this.primaryKey = primaryKey;
-  }
-  
 }

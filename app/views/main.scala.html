@@ -1,15 +1,45 @@
 @(title: String)(content: Html)
-
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
-    </head>
-    <body>
-        @content
-    </body>
+  <head>
+    <title>@title</title>
+      <link rel="stylesheet" media="screen" href="@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))">        
+      <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+      <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+      <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+  </head>
+  <body>
+    <div class = "navbar navbar-fixed-top">
+      <div class = "navbar-inner">
+        <a class = "brand" href="@routes.Application.index()">
+          <img src="@routes.Assets.at("images/logo.png")" margin=0 alt="image not found" />
+		</a>
+		<form class="navbar-form form-inline pull-left">
+          <ul class="nav">
+          <li class="active"><a href="@routes.Application.index()">Home</a></li>
+          <li><a href="@routes.Offer.create()">Book Offer</a></li>
+          <li><a href="@routes.Request.create()">Book Request</a></li>
+          </ul>
+          <!-- Search placeholder till a correct search form is found -->
+          
+          <form id="searching">
+            <input type="text" id="searchtext" placeholder= "Enter Book Name Here" class="search">
+            <div class="btn-group">
+              <button class="Submit" onClick=>Search</button>
+            </div>
+          </form>
+        </form>
+        <form class="navbar-form form-inline pull-right">
+        <!-- Login placeholder till authentication with UH Web Server Validation -->
+              <button class="Submit">Sign In</button>
+        </form>
+      </div>
+    </div> 
+    </br></br>
+    @content
+    <div class="navbar navbar-inner  navbar-fixed-bottom">
+      <p align="center">Developed by Justin Lee under the MIT License</p>
+	</div>
+  </body>
 </html>

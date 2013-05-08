@@ -1,7 +1,20 @@
-@(message: String)
+@(students: List[models.Student])
 
-@main("Welcome to Play 2.1") {
-    
-    @play20.welcome(message, style = "Java")
-    
+@main("User Interface") {
+<div class="container">
+  <div class="row">
+    <div class="span12" style="text-align: center;">
+      <img src="@routes.Assets.at("images/main.png")" align="middle" margin=0 alt="image not found" />
+    </div>
+  </div>
+  <div class="row">
+    <h2 align="center">"The place to trade your ICS books in a flash, so you can save some cash!!!"</h2>
+    </br>
+  </div>
+  <div class="row">
+    <h3>SITE INSTRUCTIONS : </h3>
+    To search for other offers and requests enter the book name in the search bar and click <b>"Search".</b></br>
+    To buy your books, click <b>"Book Requests"</b> and fill out the form.</br>
+    To sell your books, click <b>"Book Offer"</b> and fill out the form.</br>
+  </div>
 }

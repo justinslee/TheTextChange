@@ -39,7 +39,8 @@ public class ControllerTest {
   public void stopApp() {
     stop(application);
   }
-  
+  // Controller routes and functions no longer exist.  Testing functions is now done in views and pages.
+  /*
   @Test
   public void testStudentController() {
     // Test GET /student on an empty database.
@@ -257,6 +258,6 @@ public class ControllerTest {
     assertEquals("Deleted request gone", NOT_FOUND, status(result));
     result = callAction(controllers.routes.ref.Request.delete(requestId));
     assertEquals("Deleted missing request also OK", OK, status(result));
-  }
+  }*/
 }
 

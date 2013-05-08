@@ -42,6 +42,14 @@ public class Student extends Model {
     return String.format("[Student %s %s %s]", getStudentId(), getName(), getEmail());
   }
 
+  public Long getPrimaryKey() {
+    return primaryKey;
+  }
+
+  public void setPrimaryKey(Long primaryKey) {
+    this.primaryKey = primaryKey;
+  }
+  
   public String getStudentId() {
     return studentId;
   }
@@ -82,6 +90,13 @@ public class Student extends Model {
     this.requests = requests;
   }
   
+  public static List<String> getEmails() {
+    List<String> studentEmails = new ArrayList<>();
+    for (Student student : find().all()) {
+      studentEmails.add(student.email);
+    }
+    return studentEmails;
+  }
   
   
 }

@@ -1,44 +1,73 @@
 package controllers;
 
-import static play.data.Form.form;
-
-import java.util.List;
-
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.studentCreate;
+import views.html.studentEdit;
+import static play.data.Form.form;
+import java.util.List;
 
-
-public class Student extends Controller{
+public class Student extends Controller {
   
-  public static Result index() {
-    List<models.Student> students = models.Student.find().findList();
-    return ok(students.isEmpty() ? "No students" : students.toString());
+  /**
+   * Displays a form with default values for creating a new student.
+   * @return A student form with default values. 
+   */
+  public static Result create() {
+    models.Student defaults = new models.Student("Student1", "John Doe", "johndoe@hawaii.edu");
+    Form<models.Student> studentForm = form(models.Student.class).fill(defaults);
+    return ok(studentCreate.render(studentForm));
   }
   
-  public static Result details(String studentId) {
-    models.Student student = models.Student.find().where().eq("studentId", studentId).findUnique();
-    return (student == null) ? notFound("No students") : ok(student.toString());
-  }
-
-  public static Result newStudent() {
-    // Create a new Student form and bind the request variables to it..
+  /**
+   * Stores a newly created student.
+   * @return The home page. 
+   */
+  public static Result save() {
     Form<models.Student> studentForm = form(models.Student.class).bindFromRequest();
-    //validate
     if (studentForm.hasErrors()) {
-      return badRequest("Student error:" + studentForm.errors().toString());
+      return badRequest(studentCreate.render(studentForm));
     }
-    //passed validation, now can create student entity 
     models.Student student = studentForm.get();
     student.save();
-    return ok(student.toString());
+    return redirect(routes.Application.admin());
   }
   
-  public static Result delete(String studentId) {
-    models.Student student = models.Student.find().where().eq("studentId", studentId).findUnique();
-    if (student != null) {
-      student.delete();
-    }
-    return ok();
+  /**
+   * Displays a student's data for updating.
+   * @param primaryKey The PK used to retrieve the student. 
+   * @return An filled student form.
+   */
+  public static Result edit(Long primaryKey) {
+    models.Student student = models.Student.find().byId(primaryKey);
+    Form<models.Student> studentForm = form(models.Student.class).fill(student);
+    return ok(studentEdit.render(primaryKey, studentForm));
   }
+  
+ 
+  /**
+   * Saves an updated version of the student data provided by user. 
+   * @param primaryKey The PK to the student.
+   * @return The home page. 
+   */
+  public static Result update(Long primaryKey) {
+    Form<models.Student> studentForm = form(models.Student.class).bindFromRequest();
+    if (studentForm.hasErrors()) {
+      return badRequest(studentEdit.render(primaryKey, studentForm));
+    }
+    studentForm.get().update(primaryKey);
+    return redirect(routes.Application.admin());
+  }
+  
+  /**
+   * Deletes the student. 
+   * @param primaryKey The PK to the student to be deleted.
+   * @return The home page. 
+   */
+  public static Result delete(Long primaryKey) {
+    models.Student.find().byId(primaryKey).delete();
+    return redirect(routes.Application.index());
+  }
+  
 }

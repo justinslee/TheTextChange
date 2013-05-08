@@ -4,26 +4,35 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+GET     /admin                      controllers.Application.admin()
 
-GET     /students                   controllers.Student.index()
-GET     /students/:studentId        controllers.Student.details(studentId: String)
-POST    /students                   controllers.Student.newStudent()
-DELETE  /students/:studentId        controllers.Student.delete(studentId: String)
 
-GET     /books                      controllers.Book.index()
-GET     /books/:bookId              controllers.Book.details(bookId: String)
-POST    /books                      controllers.Book.newBook()
-DELETE  /books/:bookId              controllers.Book.delete(bookId: String)
+GET     /student/create               controllers.Student.create()
+POST    /student                      controllers.Student.save()
+GET     /student/:primaryKey          controllers.Student.edit(primaryKey: Long)
+POST    /student/:primaryKey          controllers.Student.update(primaryKey: Long)
+GET     /student/:primaryKey/delete   controllers.Student.delete(primaryKey: Long)
 
-GET     /offers                     controllers.Offer.index()
-GET     /offers/:stockItemId        controllers.Offer.details(stockItemId: String)
-POST    /offers                     controllers.Offer.newOffer()
-DELETE  /offers/:stockItemId        controllers.Offer.delete(stockItemId: String)
 
-GET     /requests                   controllers.Request.index()
-GET     /requests/:requestId        controllers.Request.details(requestId: String)
-POST    /requests                   controllers.Request.newRequest()
-DELETE  /requests/:requestId        controllers.Request.delete(requestId: String)
+GET     /offer/create               controllers.Offer.create()
+POST    /offer                      controllers.Offer.save()
+GET     /offer/:primaryKey          controllers.Offer.edit(primaryKey: Long)
+POST    /offer/:primaryKey          controllers.Offer.update(primaryKey: Long)
+GET     /offer/:primaryKey/delete   controllers.Offer.delete(primaryKey: Long)
+GET     /search/:bookName           controllers.Offer.find(bookName: String)
+
+GET     /request/create               controllers.Request.create()
+POST    /request                      controllers.Request.save()
+GET     /request/:primaryKey          controllers.Request.edit(primaryKey: Long)
+POST    /request/:primaryKey          controllers.Request.update(primaryKey: Long)
+GET     /request/:primaryKey/delete   controllers.Request.delete(primaryKey: Long)
+
+GET     /book/create               controllers.Book.create()
+POST    /book                      controllers.Book.save()
+GET     /book/:primaryKey          controllers.Book.edit(primaryKey: Long)
+POST    /book/:primaryKey          controllers.Book.update(primaryKey: Long)
+GET     /book/:primaryKey/delete   controllers.Book.delete(primaryKey: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /webjars/*file              controllers.WebJarAssets.at(file)

@@ -37,25 +37,36 @@ public class Offer extends Model {
     this.condition = condition;
     this.price = price;
   }
- 
+  
+  public Offer(String offerId, String condition, String price, String bookName, String bookEdition) {
+    this.offerId = offerId;
+    this.condition = condition;
+    this.price = price;
+    this.bookName = bookName;
+    this.bookEdition = bookEdition;
+  } 
+  
   public static Finder<Long, Offer> find() {
     return new Finder<Long, Offer>(Long.class, Offer.class);
   }
   
   public String validate() {
     Student studentTemp = Student.find().where().eq("email", getStudentEmail()).findUnique();
-    Book bookTemp = Book.find().where().eq("name", getBookName()).eq("edition",getBookEdition()).findUnique();
+    Book bookTemp = Book.find().where().eq("name", getBookName()).findUnique();
     if (studentTemp == null) {
       return "Invalid. Student must exist.";
     }
     else if (bookTemp == null){ 
-      Book bookNew = new Book("Book-"+getPrimaryKey().toString(),getBookName(),getBookEdition(), null, null);
-      setBook(bookNew);
-      book.save();
+      //models.Book bookNew = new Book("Book-"+getPrimaryKey().toString(),getBookName(),getBookEdition(), "NOTHING", "NOTHING");
+      //models.Book bookNew = new Book("Book-01",getBookName(),getBookEdition(), "NOTHING", "NOTHING");
+      return "Invalid. Book must exist.";
+      //setBook(bookNew);
+      //bookNew.save();
     } else {
-      setBook(bookTemp);
+      //setBook(bookTemp);
     }
     setStudent(studentTemp);
+    setBook(bookTemp);
     save();
     return null;
   }
@@ -64,6 +75,14 @@ public class Offer extends Model {
     return String.format("[Offer %s %s %s]", offerId, condition, price);
   }
 
+  public Long getPrimaryKey() {
+    return primaryKey;
+  }
+
+  public void setPrimaryKey(Long primaryKey) {
+    this.primaryKey = primaryKey;
+  }
+  
   public String getOfferId() {
     return offerId;
   }
@@ -128,11 +147,4 @@ public class Offer extends Model {
     this.bookEdition = bookEdition;
   }
 
-  public Long getPrimaryKey() {
-    return primaryKey;
-  }
-
-  public void setPrimaryKey(Long primaryKey) {
-    this.primaryKey = primaryKey;
-  }
 }

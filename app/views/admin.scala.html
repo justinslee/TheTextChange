@@ -1,0 +1,80 @@
+@(offers: List[models.Offer], students: List[models.Student], books: List[models.Book], requests: List[models.Request])
+
+@main("Admin Interface") {
+ <div class="container">
+  <div class="row main-features">
+    <div class="span6">
+      <div class="well">
+        <h3>Student</h3>
+        <p>Click a Student to edit/delete:</p>
+        <div class="scrolling-table">
+          <table class="table table-condensed">
+            <tbody>
+              @for(student <- students) {
+                <tr><td><a href="@routes.Student.edit(student.getPrimaryKey)">@student.getStudentId (@student.getName, @student.getEmail)</a></td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="pad-top">
+          <a id="newStudent" href="@routes.Student.create()" class="btn btn-block btn-success">New Student</a> 
+        </div>
+      </div>
+    </div>
+    <div class="span6">
+      <div class="well">
+        <h3>Book</h3>
+        <p>Click a Book to edit/delete:</p>
+        <div class="scrolling-table">
+          <table class="table table-condensed">
+            <tbody>
+              @for(book <- books) {
+                <tr><td><a href="@routes.Book.edit(book.getPrimaryKey)">@book.getBookId (@book.getBookId)</a></td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="pad-top">
+          <a id="newBook" href="@routes.Book.create()" class="btn btn-block btn-success">New Book</a> 
+        </div>
+      </div>
+    </div>
+    <div class="span6">
+      <div class="well">
+        <h3>Offers</h3>
+        <p>Click a Offer to edit/delete:</p>
+        <div class="scrolling-table">
+          <table class="table table-condensed">
+            <tbody>
+              @for(offer <- offers) {
+                <tr><td><a href="@routes.Offer.edit(offer.getPrimaryKey)">@offer.getBookName (@offer.getCondition, @offer.getPrice, @if(offer.getStudent != null) {@offer.getStudent.getName}, @if(offer.getBook != null) {@offer.getBook.getName)}</a></td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="pad-top">
+          <a id="newOffer" href="@routes.Offer.create()" class="btn btn-block btn-success">New Offer</a> 
+        </div>
+      </div>
+    </div>    
+    <div class="span6">
+      <div class="well">
+        <h3>Requests</h3>
+        <p>Click a Request to edit/delete:</p>
+        <div class="scrolling-table">
+          <table class="table table-condensed">
+            <tbody>
+              @for(request <- requests) {
+                <tr><td><a href="@routes.Request.edit(request.getPrimaryKey)">@request.getBookName (@request.getCondition, @request.getPrice, @if(request.getStudent != null) {@request.getStudent.getName}, @if(request.getBook != null) {@request.getBook.getName)}</a></td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="pad-top">
+          <a id="newRequest" href="@routes.Request.create()" class="btn btn-block btn-success">New Request</a> 
+        </div>
+      </div>
+    </div>    
+  </div>
+</div>
+}

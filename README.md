@@ -1,4 +1,4 @@
-![My image](/images/logo.png)
+![Image](/images/logo.png "Logo")
 =====================================
 
 This web application is built using the Play framework.   The web application goal is to provide a way
@@ -6,11 +6,12 @@ for ICS students to exchange textbooks with each other.
 
 ER-Model Diagram
 =====================================
-![My image](images/ER-TheTextChange.png)
+![Image](/images/ER-TheTextChange.png "Model")
+
 
 Installation
 =====================================
-1. Install the Play framework on your system. 
+1. Install the Play framework on your system.
 2. Install the Eclipse IDE for Mobile Development on your system.
 
 Build
